@@ -1,0 +1,9 @@
+{
+    "name": "dict",
+    "dockerComposeFile":"docker-compose.yml",
+    "service":"app",
+    "workspaceFolder":"/tmp/app",
+    "extensions": [
+        "ms-python.python"
+    ]
+}

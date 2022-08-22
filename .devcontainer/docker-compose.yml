@@ -1,0 +1,11 @@
+version: '3.2'
+
+services:
+  app:
+    build: ./app
+    container_name: app
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    volumes:
+      - ../app:/tmp/app
