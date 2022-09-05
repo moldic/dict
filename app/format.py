@@ -1,6 +1,6 @@
 
 class Token:
-    def value(self):
+    def getValue(self):
         return self.str
 
     def __init__(self,str):
@@ -8,37 +8,49 @@ class Token:
         self.tokens=[]
 
     def add(self,Token):
-        self.tokens.add(Token)
+        self.tokens.append(Token)
 
     #dummy
     def next(self):
         return ''
 
+class Fr(Token):
+    def __init__(self):
+        self.str=('{')
+
+
+class To(Token):
+    def __init__(self):
+        self.str=('}')
+
 class InputText:
     def __init__(self,str,dl):
         self.tokens=list(map(lambda x:Token(x),str.split(dl)))
 
-#Cannot-Recursive
 #str:row-string
 class Format:
-    def lex(self,str,tokens=[]):
-        while len(str)!=0:
-            if (i:=str.find('{'))!=-1:
-                tokens.append(str[:i])
-                str=str[i+1:]
-                print(str)
+    #split into Token
+    def lex(self,str):
+        delimiters={'{':Fr,'}':To}
+        for i in range(len(str)):
+            if (c:=str[i]) in delimiters:
+                if i!=0:
+                    self.tokens.append(str[0:i])
+                self.tokens.append(delimiters.get(c)())
+                self.lex(str[i+1:])
                 break
-            else:
-                tokens.append(str)
-                break
-        return tokens
+            if i==len(str)-1:
+                self.tokens.append(str)        
 
-    def __init__(self,str):
+    def __init__(self,str): 
+        self.tokens=[]
         #validator
         if str.count('{')!= str.count('}'):
             return
-        #token
         self.lex(str)
 
 
-Format('hoge{h}oge')
+if __name__=='__main__':
+
+    for i in Format('hoge{ho}ge').tokens:
+        print(i)
